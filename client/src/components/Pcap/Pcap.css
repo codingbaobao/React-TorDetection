@@ -1,0 +1,36 @@
+.font {
+  color: #000;
+  font-style:Sans-serif;
+  font-weight:bold;
+  text-align: center;
+}
+.upload {
+  color: #000;
+  font-style:Sans-serif;
+  font-weight:bold;
+  text-align: left;
+}
+.table {
+  color: #000;
+  font-style:Sans-serif;
+  font-weight:bold;
+  text-align: center;
+}
+.Pcap {
+   text-align: left;
+}
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+.border {
+  background-color: #111;
+  color: #fff;
+  /* padding: 18px; */
+  font-size: 10px;
+  letter-spacing: 10px;
+}
