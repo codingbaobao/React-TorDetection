@@ -1,11 +1,10 @@
 {
-  "name": "example-create-react-app-express",
+  "name": "React-TorDetection",
   "version": "1.0.0",
-  "description": "Example on using create-react-app with a Node Express Backend",
+  "description": "Using React with Express setting up a Tor-Flow detection service",
   "author": {
-    "name": "Esau Silva",
-    "email": "esausilva85@gmail.com",
-    "url": "https://esausilva.com"
+    "name": "codingbaobao",
+    "email": "z21012101@gmail.com"
   },
   "license": "MIT",
   "scripts": {
