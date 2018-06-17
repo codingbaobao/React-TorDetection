@@ -23,17 +23,19 @@ app.post('/upload',multipart(), function (req, res) {
   //响应ajax请求，告诉它图片传到哪了
   // res.json({ code: 200, data: { url: 'http://' + req.headers.host + '/public/uploads/' + filename } });
   
-  var options = {
-  mode: 'json',
-  pythonOptions: ['-u'], // get print results in real-time
-  scriptPath: './uploads',
-  args: [filename]
-  };
-  PythonShell.run('crack.py', options, function (err, results) {
-    if (err) throw err;
-    console.log('results: %j', results[0]);
-    res.json({ code: 200,data:results[0]});
-  });
+  // var options = {
+  // mode: 'json',
+  // pythonOptions: ['-u'], // get print results in real-time
+  // scriptPath: './uploads',
+  // args: [filename]
+  // };
+  // PythonShell.run('crack.py', options, function (err, results) {
+    // if (err) throw err;
+    // console.log('results: %j', results[0]);
+    // res.json({ code: 200,data:results[0]});
+  // });
+    var file = fs.readFileSync('uploads/AIM_Chat.pcap_Flow.json', 'utf8');
+    res.json({ code: 200,data:JSON.parse(file)});
 });
 
 
