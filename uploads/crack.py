@@ -1,17 +1,6 @@
 import sys
 import json
-# print('get param:{}'.format(sys.argv[1]))
-with open('aaa.txt','w') as f:
-    f.write('bbbbbbb')
-# print (json.dumps({
-  # "name": "example-create-react-app-express",
-  # "version": "1.0.0",
-  # "description": "Example on using create-react-app with a Node Express Backend",
-  # "author": {
-    # "name": "Esau Silva",
-    # "email": "esausilva85@gmail.com",
-    # "url": "https://esausilva.com"
-  # }}))
+import time
 dataSource = [{
   'key': '1',
   'name': 'Mike',
@@ -23,4 +12,21 @@ dataSource = [{
   'age': 42,
   'address': '10 Downing Street'
 }];
-print (json.dumps(dataSource))
+dataSource2 = [{
+  'key': '3',
+  'name': 'Max',
+  'age': 32,
+  'address': '10 Downing Street'
+}, {
+  'key': '4',
+  'name': 'Juju',
+  'age': 42,
+  'address': '10 Downing Street'
+}];
+path = sys.argv[2]+'/'
+name = sys.argv[1]
+with open('{}.json'.format(path+name),'w') as f:
+    if name == '1.txt':
+        json.dump(dataSource,f)
+    else:
+        json.dump(dataSource2,f)

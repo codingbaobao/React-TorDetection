@@ -1,40 +1,4 @@
 @import '~antd/dist/antd.css';
-.font1 {
-  color: black;
-  font-style:Sans-serif;
-  font-weight:bold;
-}
-
-.caption {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  color: #000;
-}
-.border {
-  background-color: #111;
-  color: #fff;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
-}
-.outter {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-.inner {
-  width: 70%;
-  height: 70%;
-  top: 25%;
-  margin: 0 auto;
-  position: relative;
-  background:grey;
-}
 .btn {
   color: black;
   /* width: 600px; */

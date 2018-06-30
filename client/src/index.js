@@ -13,7 +13,6 @@ class Routers extends Component {
       <BrowserRouter>
         <div>
           <Route path="/" component={App} />
-          <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
         </div>
       </BrowserRouter>
