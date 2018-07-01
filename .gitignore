@@ -62,4 +62,4 @@ typings/
 
 uploads/*
 CICFlowMeter-4.0/
-json/*json
+json/*.json
