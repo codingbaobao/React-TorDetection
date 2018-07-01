@@ -15,7 +15,7 @@ class App extends Component {
     this.onChange = this.onChange.bind(this)
     this.state = {
       data:[],
-      redirect: false
+      redirect:''
     }; 
   }
   onChange(info) {
@@ -25,14 +25,17 @@ class App extends Component {
     }
     if (status === 'done') {
       message.success(`${info.file.name} file uploaded successfully.`);
-      console.log(info.file.response.data);
-      this.setState({data:info.file.response.data, redirect:true});
+      this.setState({data:info.file.response.data, redirect:'Home'});
+      
       // console.log(this.state.data); 
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
   }
   render(){
+      let Home;
+      if(this.state.redirect==='Home')
+        Home = <Redirect to={{pathname:'/Home',state:{data:this.state.data}}} />;
     return(
     <div className="App">
       <header className="App-header">
@@ -49,11 +52,11 @@ class App extends Component {
           </Dragger>
         </Col>
         <Col span={9}>
-          <Button type="dashed" ghost size='large' className='btn'>即時偵測</Button> 
+          <Link to='/Flow'><Button type="dashed" ghost size='large' className='btn'>即時偵測</Button></Link>
         </Col>
       </Row>
       <br/><br/>
-      <Redirect to={{pathname:'/Home',state:{data:this.state.data}}} />
+      {Home}
     </div>
     )
   }

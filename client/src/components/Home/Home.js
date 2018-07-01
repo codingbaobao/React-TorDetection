@@ -4,7 +4,10 @@ import columns from './table1'
 
 const Home = (props) => (
   <div>
-    <Table dataSource={props.location.state.data} columns={columns} />
+    <Table dataSource={props.location.state.data} pagination={{ pageSize: 9 }} columns={columns} />
   </div>
 );
+
+
+
 export default Home;
