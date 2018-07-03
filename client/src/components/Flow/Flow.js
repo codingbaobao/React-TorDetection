@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
-import columns from './table1'
+import columns from './table'
 import './Flow.css'
 
-
+const addKey = (datas) => {
+  let newDatas = datas.map(
+    (data, index) => {
+      data.indexkey = index;
+      // data add a new property
+      return data;
+    }
+  );
+  return newDatas;
+}
 class Flow extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +41,7 @@ class Flow extends Component {
   }
   componentDidMount() {
     console.log(this.state.step)
-    this.interval = setInterval(() => this.getData(), 5000);
+    this.interval = setInterval(() => this.getData(), 12000);
   }
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -40,7 +49,7 @@ class Flow extends Component {
   render() {
     return (
       <div>
-        <Table dataSource={this.state.data} pagination={{ pageSize: 9 }} columns={columns} />
+        <Table dataSource={addKey(this.state.data)} pagination={{ pageSize: 9 }} rowKey='indexkey' columns={columns} />
       </div>
     )
   }

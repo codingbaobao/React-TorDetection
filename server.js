@@ -10,24 +10,26 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'client', 'public', 'index.html'));
 });
 app.post('/upload', multipart(), function (req, res) {
-  //获得文件名
+  //獲得文件名
   // console.log(req.files)
   var filename = req.files.file.originalFilename || path.basename(req.files.file.path);
-  //复制文件到指定路径
+  //復制文件到指定路徑
   var targetPath = 'uploads/' + filename;
-  //复制文件流
+  //復制文件流
   fs.createReadStream(req.files.file.path).pipe(fs.createWriteStream(targetPath));
-  //响应ajax请求，告诉它图片传到哪了
+  //響應ajax請求，告訴他圖片傳到哪了
   // res.json({ code: 200, data: { url: 'http://' + req.headers.host + '/public/uploads/' + filename } });
   const promise = new Promise(function (resolve, reject) {
     var options = {
-      mode: 'json',
+      mode: 'text',
+      pythonPath: '/usr/bin/python3.6',
       // pythonOptions: ['-u'], // get print results in real-time
-      scriptPath: 'program/',
-      args: [targetPath, "json/"]
+      scriptPath: './CICFlowMeter-4.0/bin/',
+      args: ["offtime", "--pcap-path", targetPath, "--json-path", "json/"]
     };
-    PythonShell.run('pcap.py', options, function (err, results) {
+    PythonShell.run('utils.py', options, function (err, results) {
       if (err) {
+        // console.log("Python!!!!");
         console.log(err);
         throw err;
         reject(err);
@@ -37,8 +39,9 @@ app.post('/upload', multipart(), function (req, res) {
       // res.json({ code: 200,data:results[0]}); 
     });
   });
-  promise.then((results) => {
-    res.json({ code: 200, data: JSON.parse(fs.readFileSync(`json/${filename}.json`, 'utf8')) });
+  promise.then(() => {
+    console.log('Returning!');
+    res.json({ code: 200, data: JSON.parse(fs.readFileSync(`json/${filename}_Flow.json`, 'utf8')) });
   });
 });
 
@@ -46,22 +49,24 @@ app.get('/realtime/:step', multipart(), function (req, res) {
   const step = req.params.step;
   const promise = new Promise(function (resolve, reject) {
     var options = {
-      mode: 'json',
+      mode: 'text',
+      pythonPath: '/usr/bin/python3.6',
       // pythonOptions: ['-u'], // get print results in real-time
-      scriptPath: 'program/',
-      args: [step, "json/"]
+      scriptPath: './CICFlowMeter-4.0/bin/',
+      args: ["realtime", "--json-path", "json/", "--json-filename", step]
     };
-    PythonShell.run('realtime.py', options, function (err, results) {
+    PythonShell.run('utils.py', options, function (err, results) {
       if (err) {
-        console.log(err)
+        // console.log(err)
         throw err;
         reject(err);
       }
-      resolve();
+      resolve(results);
     });
   });
   promise.then(() => {
-    res.json({ code: 200, data: JSON.parse(fs.readFileSync(`json/${step}.json`, 'utf8')) });
+    console.log('Returning!');
+    res.json({ code: 200, data: JSON.parse(fs.readFileSync(`json/${step}.pcap_Flow.json`, 'utf8')) });
   });
 });
 

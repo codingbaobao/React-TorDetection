@@ -27,12 +27,14 @@
     "url": "https://github.com/esausilva/example-create-react-app-express/issues"
   },
   "nodemonConfig": {
-    "ignore": ["uploads/", "json/"]
+    "ignore": [
+      "uploads/",
+      "json/"
+    ]
   },
   "keywords": [
     "node",
     "express",
     "create-react-app"
   ]
-  
 }
