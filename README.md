@@ -1,4 +1,7 @@
 # React-TorDetection
+#### Environment
+* Linux
+* Python3.6 (with scikit-learn, numpy, pandas, pickle)
 #### Quick Start
 I recommand using *yarn* instead of *npm*  
 `npm install -g yarn`  
