@@ -7,11 +7,15 @@ import pandas as pd
 import pickle as pk
 import shlex
 import argparse
+import logging
 from subprocess import Popen
+from subprocess import PIPE
 
 from utility import *
-# import warnings
-# warnings.filterwarnings('ignore')
+import warnings
+warnings.filterwarnings('ignore')
+iprint = print
+print = logging.info
 
 # CSV files are generated from CICFlowMeter with pcap files
 # as input. Below shows the available attributes or information
@@ -40,6 +44,7 @@ config = json.load(open(CONFIG_PATH))['Scenario-A']
 SELECTED_INFO = [info for info, usage in config["info"].items() if usage]
 SELECTED_FEAT = [attr for attr, usage in config["attribute"].items() if usage]
 COLLECT_TIME = 10
+QUIET = True
 
 
 def csv2json(file, json_file, format):
@@ -75,7 +80,7 @@ def csv2json(file, json_file, format):
                 content['Flow Pkts/s'] = str(
                     round(float(content['Flow Pkts/s']), 2))
             except Exception as e:
-                print(e.message, e.args)
+                print(e.args)
 
             csv_rows.extend([content])
 
@@ -133,7 +138,8 @@ def cicflowmeter2json(args):
         tcpdump_cmd = "sudo tcpdump -G {} -W 1 host {} -w {}".format(
             str(COLLECT_TIME), IP, pcap_path)
         tcpdump_args = shlex.split(tcpdump_cmd)
-        tcpdump = Popen(tcpdump_args)
+        tcpdump = Popen(tcpdump_args, stdout=PIPE) if QUIET else Popen(
+            tcpdump_args)
         tcpdump.communicate()
 
     # cfm can only be executed in 'CICFlowMeter-4.0/bin'
@@ -147,7 +153,7 @@ def cicflowmeter2json(args):
     # Execute the cfm which is located in 'CICFlowMeter-4.0/bin'
     cfm_command = './cfm {} {}'.format(abs_pcap_path, abs_json_path)
     cfm_args = shlex.split(cfm_command)
-    cfm = Popen(cfm_args)
+    cfm = Popen(cfm_args, stdout=PIPE) if QUIET else Popen(cfm_args)
     cfm.communicate()
     os.chdir(home_path)
 
@@ -176,22 +182,34 @@ def inference(filename, inference_csv, scenario='A'):
     # about to be loaded
     clf = pk.load(open(filename, 'rb'))
     df = pd.read_csv(inference_csv)
+    df.fillna(df.mean())
 
     attributes = None
     if scenario == 'A':
         config = json.load(open(CONFIG_PATH))['Scenario-A']
-        df = df[SELECTED_FEAT]
-        attributes = df.as_matrix()
-        input_x = X_preprocessing(attributes)
+        attributes = [df[attr]
+                      for attr, usage in config["attribute"].items() if usage]
+        attributes = np.array(attributes).T
+        try:
+            input_x = X_preprocessing(attributes, scenario)
+        except:
+            input_x = attributes
+
     elif scenario == 'B':
         config = json.load(open(CONFIG_PATH))['Scenario-B']
         attributes = [df[attr]
                       for attr, usage in config["attribute"].items() if usage]
-        input_x = np.array(attributes).T
+        attributes = np.array(attributes).T
+        input_x = X_preprocessing(attributes, scenario)
 
-    y_pred = clf.predict(input_x)
-    print('label: ', y_pred)
-    return y_pred
+    try:
+        y_pred = clf.predict(input_x)
+        print('label: ', y_pred)
+        return y_pred
+    except Exception as e:
+        iprint(e.args)
+        iprint(input_x)
+        return None
 
 
 if __name__ == "__main__":
@@ -207,4 +225,7 @@ if __name__ == "__main__":
     parser.add_argument('--json-filename', default='', type=str,
                         help='Specify the filename for output json')
 
-    cicflowmeter2json(parser.parse_args())
+    args = parser.parse_args()
+    logging.basicConfig(level=logging.WARNING if QUIET else logging.INFO,
+                        format="%(message)s")
+    cicflowmeter2json(args)
