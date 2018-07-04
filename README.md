@@ -42,7 +42,7 @@ Enjoy!
 #### 分工表
 温明浩: 前端網頁&後端server建立、後期debug  
 陳柏文: Python程式修飾、程式與server串接、後期debug  
-徐彥旻: 報告製作、Python程式修飾 
+徐彥旻: 報告製作、Python程式修飾  
 周晁德: model撰寫&訓練  
 黃平瑋: pcap檔案分析與轉換  
 蔡昕宇: model撰寫&訓練  
