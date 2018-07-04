@@ -47,6 +47,6 @@ Enjoy!
 陳柏文: Python程式修飾、程式與server串接、後期debug  
 徐彥旻: 報告製作、Python程式修飾  
 周晁德: model撰寫&訓練  
-黃平瑋: pcap檔案分析與轉換  
 蔡昕宇: model撰寫&訓練  
+黃平瑋: pcap檔案分析與轉換  
 劉記良: 報告製作 
