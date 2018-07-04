@@ -9,7 +9,8 @@ I recommand using *yarn* instead of *npm*
 Next, install the requirements  
 `yarn global add nodemon`  
 `yarn install`  
-`cd client && yarn install`  
+`cd client`
+`yarn install`  
 
 Because `python-shell` package will shut-down python when receiving warning, we need to modify it. 
 Open `node_modules/python-shell/index.js`, in *line72*: 
@@ -32,7 +33,8 @@ then, start server by enter command in root:
 `yarn server`  
 #### Start web page:
 Start a new command line, cd to the client and start web page:  
-`cd client &&　yarn start`  
+`cd client`
+`yarn start`  
 
 Enjoy! 
 
