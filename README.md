@@ -2,10 +2,12 @@
 #### Quick Start
 I recommand using *yarn* instead of *npm*  
 `npm install -g yarn`  
+
 Next, install the requirements  
 `yarn global add nodemon`  
 `yarn install`  
 `cd client && yarn install`  
+
 Because `python-shell` package will shut-down python when receiving warning, we need to modify it. 
 Open `node_modules/python-shell/index.js`, in *line72*: 
 ```
